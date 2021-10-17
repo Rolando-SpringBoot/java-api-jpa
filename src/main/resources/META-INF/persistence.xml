@@ -7,8 +7,11 @@
         <description>
             Ejemplo de persistencia JPA con EclipseLink sobre PostgreSQL
         </description>
+        <!-- especifica el proveedor de persistencia JPA -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!-- especifica la clase entidad -->
         <class>org.bardales.jpa.domain.Persona</class>
+        <!-- validar la entidad automaticamente siempre y cuando se le añada validacion a este -->
         <validation-mode>AUTO</validation-mode>
         <properties>
             <!-- JPA 3.x -->
@@ -16,6 +19,8 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres" />
             <property name="jakarta.persistence.jdbc.user" value="postgres" />
             <property name="jakarta.persistence.jdbc.password" value="admin" />
+            <!-- creara las entidades requeridas sobre la base de datos -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
             <!-- activa el log sobre las consultas sql y los parametros que
              se envian en estas-->
             <property name="eclipselink.logging.level" value="INFO"/>

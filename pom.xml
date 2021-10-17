@@ -15,11 +15,35 @@
 
     <dependencies>
         <!-- Dependencies for use EclipseLink -->
+        <!--
+         Hibernate Validator es la implementación de referencia de Jakarta Bean Validation.
+         Hibernate-validator está completamente separado de los aspectos de persistencia de Hibernate.
+         Entonces, al agregarlo como una dependencia, no estamos agregando estos aspectos de
+         persistencia al proyecto
+        -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>7.0.1.Final</version>
+        </dependency>
+        <!--
+         Hibernate Validator requiere una implementación de Jakarta Expression Language
+         para evaluar expresiones dinámicas en mensajes de violación de restricciones,
+         debido a que javax.validation depende de javax.el para analizar los mensajes
+         que pueden ser expresiones
+         -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+        <!-- Dependency for api JPA -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <!-- Dependency for framework EclipseLink -->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
