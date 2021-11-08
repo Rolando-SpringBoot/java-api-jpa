@@ -6,7 +6,7 @@ import org.bardales.jpa.domain.Persona;
 
 import java.util.List;
 
-public class PersonaDaoImpl implements PersonaDao {
+public class PersonaDAOImpl implements PersonaDAO {
 
     private EntityManager entityManager;
 
@@ -22,6 +22,7 @@ public class PersonaDaoImpl implements PersonaDao {
 
     @Override
     public Persona findPersonaById(Persona persona) {
+        //el metodo find esta preparado para buscar por la llave primaria
         return this.entityManager.find(Persona.class, persona.getIdPersona());
     }
 

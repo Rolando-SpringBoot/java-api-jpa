@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-        <!-- Dependencies for use EclipseLink -->
+        <!-- Dependencies for use Validation JPA -->
         <!--
          Hibernate Validator es la implementación de referencia de Jakarta Bean Validation.
          Hibernate-validator está completamente separado de los aspectos de persistencia de Hibernate.
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.11.4</version>
+            <version>2.12.5</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>

@@ -5,7 +5,7 @@ import org.bardales.jpa.domain.Persona;
 
 import java.util.List;
 
-public interface PersonaDao {
+public interface PersonaDAO {
 
     void setEntityManager(EntityManager entityManager);
 
