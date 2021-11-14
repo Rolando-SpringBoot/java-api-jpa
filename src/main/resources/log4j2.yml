@@ -1,0 +1,20 @@
+configuration:
+  status: warn
+  appenders:
+    console:
+      - name: MyConsole
+        target: SYSTEM_OUT
+        patternLayout:
+          disableAnsi: false #si es false, habilita generar codigo de escape ANSI
+          pattern: "%highlight{[%-5level]}{DEBUG=green bold, INFO=blue, WARN=yellow, ERROR=red, FATAL=red} %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c - %msg%n"
+  loggers:
+    root:
+      level: debug
+      appenderRef:
+        - ref: MyConsole
+    logger:
+      - name: org.bardales.jpa
+        level: debug
+        additivity: false
+        appenderRef:
+          - ref: MyConsole
