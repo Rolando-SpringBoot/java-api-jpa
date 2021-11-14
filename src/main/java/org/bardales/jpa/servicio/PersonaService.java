@@ -12,9 +12,9 @@ public interface PersonaService {
 
     List<Persona> listarPersonas() throws JPAException;
 
-    Persona encontrarPersonaPorId(Persona persona) throws JPAException;
+    Persona encontrarPersonaPorId(Integer idPersona) throws JPAException;
 
-    Persona encontrarPersonaPorEmail(Persona persona) throws JPAException;
+    Persona encontrarPersonaPorEmail(String email) throws JPAException;
 
     void registrarPersona(Persona persona) throws JPAException;
 

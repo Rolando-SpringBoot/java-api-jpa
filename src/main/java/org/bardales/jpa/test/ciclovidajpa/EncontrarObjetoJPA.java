@@ -1,4 +1,4 @@
-package org.bardales.jpa.ciclovidajpa;
+package org.bardales.jpa.test.ciclovidajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -40,7 +40,7 @@ public class EncontrarObjetoJPA {
             tx.commit();
 
             //Objeto en estado de detached
-            LOG.info("Objeto recuperado: " + personaUno);
+            LOG.info("Objeto recuperado: {}", personaUno);
         } catch (Exception ex) {
             if (Objects.nonNull(tx)) tx.rollback();
         } finally {

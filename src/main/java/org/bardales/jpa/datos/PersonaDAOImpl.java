@@ -21,15 +21,15 @@ public class PersonaDAOImpl implements PersonaDAO {
     }
 
     @Override
-    public Persona findPersonaById(Persona persona) {
+    public Persona findPersonaById(Integer idPersona) {
         //el metodo find esta preparado para buscar por la llave primaria
-        return this.entityManager.find(Persona.class, persona.getIdPersona());
+        return this.entityManager.find(Persona.class, idPersona);
     }
 
     @Override
-    public Persona findPersonaByEmail(Persona persona) {
+    public Persona findPersonaByEmail(String email) {
         TypedQuery<Persona> query = entityManager.createQuery("SELECT p FROM persona p WHERE p.email = :email", Persona.class);
-        query.setParameter("email", persona.getEmail());
+        query.setParameter("email", email);
         return query.getSingleResult();
     }
 

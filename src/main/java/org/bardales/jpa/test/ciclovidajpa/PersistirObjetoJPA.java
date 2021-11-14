@@ -1,4 +1,4 @@
-package org.bardales.jpa.ciclovidajpa;
+package org.bardales.jpa.test.ciclovidajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -43,7 +43,7 @@ public class PersistirObjetoJPA {
             tx.commit();
 
             //Objeto en estado detach
-            LOG.info("Objeto persistido - estado detached: " + personaUno);
+            LOG.info("Objeto persistido - estado detached: {}", personaUno);
 
             //Cerramos el objeto entity manager
         } catch (Exception e) {

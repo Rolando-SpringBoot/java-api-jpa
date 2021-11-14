@@ -1,4 +1,4 @@
-package org.bardales.jpa.asocioacionlazyeagerjpa;
+package org.bardales.jpa.test.asocioacionlazyeagerjpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -31,9 +31,9 @@ public class ClienteAsociacionLazyEagerJPA {
 
             //Imprimir la lista de personas
             personas.stream().forEach(persona -> {
-                LOG.info("Persona: " + persona);
+                LOG.info("Persona: {}", persona);
                 //recuperamos los usuarios de cada persona
-                persona.getUsuarioList().stream().forEach(usuario -> LOG.info("Usuario: " + usuario));
+                persona.getUsuarioList().stream().forEach(usuario -> LOG.info("Usuario: {}", usuario));
             });
 
         } catch(Exception e) {

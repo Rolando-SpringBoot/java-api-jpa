@@ -1,4 +1,4 @@
-package org.bardales.jpa.ciclovidajpa;
+package org.bardales.jpa.test.ciclovidajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -39,7 +39,7 @@ public class EliminarObjetoJPA {
             tx.commit();
 
             //objeto en estado detached
-            LOG.info("objeto encontrado: " + personaUno);
+            LOG.info("objeto encontrado: {}", personaUno);
 
 
             //Paso4. Inicia transaccion 2
@@ -53,7 +53,7 @@ public class EliminarObjetoJPA {
             tx2.commit();
 
             //objeto en estado detached ya eliminado
-            LOG.info("objeto eliminado: " + personaUno);
+            LOG.info("objeto eliminado: {}", personaUno);
 
         } catch(Exception ex) {
             if(Objects.nonNull(tx)) tx.rollback();

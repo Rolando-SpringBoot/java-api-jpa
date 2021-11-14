@@ -11,9 +11,9 @@ public interface PersonaDAO {
 
     List<Persona> findAllPersonas();
 
-    Persona findPersonaById(Persona persona);
+    Persona findPersonaById(Integer idPersona);
 
-    Persona findPersonaByEmail(Persona persona);
+    Persona findPersonaByEmail(String email);
 
     void insertPersona(Persona persona);
 

@@ -1,4 +1,4 @@
-package org.bardales.jpa.ciclovidajpa;
+package org.bardales.jpa.test.ciclovidajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -41,7 +41,7 @@ public class ActualizarObjetoJPA {
             tx.commit();
 
             //objeto en estado de detach
-            LOG.info("Objeto recuperado: " + personaUno);
+            LOG.info("Objeto recuperado: {}", personaUno);
 
             //Paso4. setValue (nuevo valor)
             personaUno.setApellido("Juarez");
@@ -57,7 +57,7 @@ public class ActualizarObjetoJPA {
             tx2.commit();
 
             //objeto en estado de detached ya modificado
-            LOG.info("Objeto recuperado: " + personaUno);
+            LOG.info("Objeto recuperado: {}", personaUno);
         } catch (Exception e) {
             if (Objects.nonNull(tx)) tx.rollback();
             if (Objects.nonNull(tx2)) tx2.rollback();

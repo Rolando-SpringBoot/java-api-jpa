@@ -27,44 +27,32 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public List<Persona> listarPersonas() throws JPAException {
-        EntityTransaction tx = this.entityManager.getTransaction();
-        List<Persona> personaList = new ArrayList<>();
+        List<Persona> personaList;
         try {
-            tx.begin();
             personaList = this.personaDao.findAllPersonas();
-            tx.commit();
         } catch (Exception e) {
-            tx.rollback();
             throw new JPAException(e.getMessage());
         }
         return personaList;
     }
 
     @Override
-    public Persona encontrarPersonaPorId(Persona persona) throws JPAException {
-        EntityTransaction tx = this.entityManager.getTransaction();
-        Persona personaObtenida = new Persona();
+    public Persona encontrarPersonaPorId(Integer idPersona) throws JPAException {
+        Persona personaObtenida;
         try {
-            tx.begin();
-            personaObtenida = this.personaDao.findPersonaById(persona);
-            tx.commit();
+            personaObtenida = this.personaDao.findPersonaById(idPersona);
         } catch (Exception e) {
-            tx.rollback();
             throw new JPAException(e.getMessage());
         }
         return personaObtenida;
     }
 
     @Override
-    public Persona encontrarPersonaPorEmail(Persona persona) throws JPAException {
-        EntityTransaction tx = this.entityManager.getTransaction();
-        Persona personaObtenida = new Persona();
+    public Persona encontrarPersonaPorEmail(String email) throws JPAException {
+        Persona personaObtenida;
         try {
-            tx.begin();
-            personaObtenida = this.personaDao.findPersonaById(persona);
-            tx.commit();
+            personaObtenida = this.personaDao.findPersonaByEmail(email);
         } catch (Exception e) {
-            tx.rollback();
             throw new JPAException(e.getMessage());
         }
         return personaObtenida;

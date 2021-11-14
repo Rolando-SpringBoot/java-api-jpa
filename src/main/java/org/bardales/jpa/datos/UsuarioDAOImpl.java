@@ -21,8 +21,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public Usuario findUsuarioById(Usuario usuario) {
-        return this.entityManager.find(Usuario.class, usuario.getIdUsuario());
+    public Usuario findUsuarioById(Integer idUsuario) {
+        return this.entityManager.find(Usuario.class, idUsuario);
     }
 
     @Override

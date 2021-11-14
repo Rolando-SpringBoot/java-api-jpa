@@ -11,7 +11,7 @@ public interface UsuarioDAO {
 
     List<Usuario> findAllUsuarios();
 
-    Usuario findUsuarioById(Usuario usuario);
+    Usuario findUsuarioById(Integer idUsaurio);
 
     void insertUsuario(Usuario usuario);
 

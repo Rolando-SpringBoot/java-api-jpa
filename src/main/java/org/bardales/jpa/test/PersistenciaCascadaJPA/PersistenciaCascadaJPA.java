@@ -1,4 +1,4 @@
-package org.bardales.jpa.PersistenciaCascadaJPA;
+package org.bardales.jpa.test.PersistenciaCascadaJPA;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -11,8 +11,6 @@ import org.bardales.jpa.domain.Usuario;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Log4j2
 public class PersistenciaCascadaJPA {
@@ -44,15 +42,15 @@ public class PersistenciaCascadaJPA {
 
             personaUno.setUsuarioList(new ArrayList<>(Arrays.asList(new Usuario[]{usuarioUno})));
 
-            //Paso3 persistimos el objeto usuario unicamente
+            //Paso3 persistimos el objeto persona junto los usarios asociados a este
             entityManager.persist(personaUno);
 
             //Paos4. commit de la transaccion
             tx.commit();
 
             //objetos en estado de detached
-            LOG.info("objeto persistido persona: " + personaUno);
-            LOG.info("objeto persistido usuario: " + usuarioUno);
+            LOG.info("objeto persistido persona: {}", personaUno);
+            LOG.info("objeto persistido usuario: {}", usuarioUno);
 
         } catch(Exception e) {
             if(Objects.nonNull(tx)) tx.rollback();

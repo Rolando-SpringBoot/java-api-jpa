@@ -12,5 +12,12 @@ public interface UsuarioService {
 
     List<Usuario> listarUsuarios() throws JPAException;
 
+    Usuario encontrarUsuarioPorId(Integer idUsuario) throws JPAException;
+
+    void registrarUsuario(Usuario usuario) throws JPAException;
+
+    void modificarUsuario(Usuario usuario) throws JPAException;
+
+    void eliminarUsuario(Usuario usuario) throws JPAException;
 
 }
