@@ -1,4 +1,4 @@
-package org.bardales.jpa.test.asocioacionlazyeagerjpa;
+package org.bardales.jpa.test.asocioacionlazyeager;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

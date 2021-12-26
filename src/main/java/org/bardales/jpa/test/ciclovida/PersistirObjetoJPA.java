@@ -1,4 +1,4 @@
-package org.bardales.jpa.test.ciclovidajpa;
+package org.bardales.jpa.test.ciclovida;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
