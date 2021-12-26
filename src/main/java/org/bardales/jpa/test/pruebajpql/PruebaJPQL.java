@@ -1,13 +1,16 @@
 package org.bardales.jpa.test.pruebajpql;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
 import org.bardales.jpa.domain.Persona;
 import org.bardales.jpa.domain.Usuario;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Log4j2
 public class PruebaJPQL {
@@ -18,8 +21,8 @@ public class PruebaJPQL {
         this.entityManagerFactory = Persistence.createEntityManagerFactory("PersonaPU");
     }
 
-    private static <T> void mostrar(List<T> list) {
-        list.forEach(t -> LOG.info("{} : {}", t.getClass().getSimpleName(), t));
+    private static void mostrar(List<?> list) {
+        list.forEach(l -> LOG.info("{} : {}", l.getClass().getSimpleName(), l));
     }
 
     public static void main(String... args) {
@@ -58,7 +61,8 @@ public class PruebaJPQL {
             mostrar(personas);
 
             //4. Consulta de datos individuales, se crea un arreglo(tupla) de tipo object de 3 columnas
-            LOG.info("4. Consulta de datos individuales, se crea un arreglo(tupla) de tipo object de 3 columnas");
+            LOG.info(
+                    "4. Consulta de datos individuales, se crea un arreglo(tupla) de tipo object de 3 columnas");
             jpql = "select p.nombre as Nombre, p.apellido as Apellido, p.email as Email from Persona p";
             iter = entityManager.createQuery(jpql).getResultList().iterator();
 
@@ -71,7 +75,8 @@ public class PruebaJPQL {
             }
 
             //5. Obtiene el objeto persona y el id, se crea un arreglo de tipo Object con 2 columnas
-            LOG.info("5. Obtiene el objeto persona y el id, se crea un arreglo de tipo Object con 2 columnas");
+            LOG.info(
+                    "5. Obtiene el objeto persona y el id, se crea un arreglo de tipo Object con 2 columnas");
             jpql = "select p, p.idPersona from Persona p";
             iter = entityManager.createQuery(jpql).getResultList().iterator();
 
@@ -83,11 +88,10 @@ public class PruebaJPQL {
                 LOG.info("id persona: {}", idPersona);
             }
 
-            //7. Regresa el valor minimo y maximo del idPersona (scaler result)
+            //6. Regresa el valor minimo y maximo del idPersona (scaler result)
             LOG.info("7. Regresa el valor minimo y maximo del idPersona (scaler result)");
             jpql = "select min(p.idPersona) as MinId, max(p.idPersona) as MaxId, count(p.idPersona) as Contador from Persona p";
             iter = entityManager.createQuery(jpql).getResultList().iterator();
-
 
             while (iter.hasNext()) {
                 tupla = (Object[]) iter.next();
@@ -99,19 +103,19 @@ public class PruebaJPQL {
                 LOG.info("contador : {}", contador);
             }
 
-            //8. Cuenta los nombres de las personas que son distintos
+            //7. Cuenta los nombres de las personas que son distintos
             LOG.info("8. Cuenta los nombres de las personas que son distintos");
             jpql = "select count(distinct p.nombre) as Contador from Persona p";
             Long contador = entityManager.createQuery(jpql, Long.class).getSingleResult();
             LOG.info("contador : {}", contador);
 
-            //9. Concatena y convierte a mayúsculas el nombre y el apellido
+            //8. Concatena y convierte a mayúsculas el nombre y el apellido
             LOG.info("9. Concatena y convierte a mayúsculas el nombre y el apellido");
             jpql = "select upper(concat(p.nombre, ' ', p.apellido)) as NombreCompleto from Persona p";
             nombres = entityManager.createQuery(jpql, String.class).getResultList();
             nombres.forEach(n -> LOG.info("Nombre: {}", n));
 
-            //10. Obtiene el objeto persona con el id igual al parametro proporcionado
+            //9. Obtiene el objeto persona con el id igual al parametro proporcionado
             LOG.info("10. Obtiene el objeto persona con el id igual al parametro proporcionado");
             int idPersona = 917;
             jpql = "select p from Persona p where p.idPersona = :idPersona";
@@ -120,8 +124,9 @@ public class PruebaJPQL {
             persona = typedQueryPersona.getSingleResult();
             LOG.info("persona : {}", persona);
 
-            //11. Obtiene las personas que contengan una letra a en el nombre, sin importar si es mayusculas o minusculas
-            LOG.info("11. Obtiene las personas que contengan una letra l en el nombre, sin importar si es mayusculas o minusculas>");
+            //10. Obtiene las personas que contengan una letra a en el nombre, sin importar si es mayusculas o minusculas
+            LOG.info(
+                    "11. Obtiene las personas que contengan una letra l en el nombre, sin importar si es mayusculas o minusculas>");
             String paramLike = "%l%";
             jpql = "select p from Persona p where upper(p.nombre) like upper(:paramLike)";
             typedQueryPersona = entityManager.createQuery(jpql, Persona.class);
@@ -129,40 +134,40 @@ public class PruebaJPQL {
             personas = typedQueryPersona.getResultList();
             mostrar(personas);
 
-            //12. Uso de between
+            //11. Uso de between
             LOG.info("12. Uso de between");
             jpql = "select p from Persona p where p.idPersona between 10 and 100";
             personas = entityManager.createQuery(jpql, Persona.class).getResultList();
             mostrar(personas);
 
-            //13. Uso del ordenamiento
+            //12. Uso del ordenamiento
             LOG.info("13. Uso del ordenamiento");
             jpql = "select p from Persona p where p.idPersona > 1 order by p.nombre desc, p.apellido desc";
             personas = entityManager.createQuery(jpql, Persona.class).getResultList();
             mostrar(personas);
 
-            //14. Uso de subquery
+            //13. Uso de subquery
             LOG.info("14. Uso de subquery");
             jpql = "select p from Persona p where p.idPersona in (select min(p2.idPersona) from Persona p2)";
             personas = entityManager.createQuery(jpql, Persona.class).getResultList();
             mostrar(personas);
 
-            //15. Uso de inner join con lazy loading
+            //14. Uso de inner join con lazy loading
             LOG.info("15. Uso de inner join con lazy loading");
             jpql = "select u from Usuario u join u.persona p";
             usuarios = entityManager.createQuery(jpql, Usuario.class).getResultList();
             mostrar(usuarios);
 
-            //16. Uso de left join con eager loading
+            //15. Uso de left join con eager loading
             LOG.info("16. Uso de left join con eager loading");
             jpql = "select u from Usuario u left join fetch u.persona p";
             usuarios = entityManager.createQuery(jpql, Usuario.class).getResultList();
             mostrar(usuarios);
 
-            //17. Uso de inner join, group by y having con eager loading
+            //16. Uso de inner join, group by y having con eager loading
             LOG.info("17. Uso de inner join, group by y having con eager loading");
-            jpql = "select p.nombre, count(u.idUsuario) as cantidadUsuarios from Usuario u join u.persona p" +
-                    " group by p.nombre having count(u.idUsuario) > 1";
+            jpql = "select p.nombre, count(u.idUsuario) as cantidadUsuarios from Usuario u join u.persona p"
+                    + " group by p.nombre having count(u.idUsuario) > 1";
             iter = entityManager.createQuery(jpql).getResultList().iterator();
 
             while (iter.hasNext()) {
@@ -174,10 +179,14 @@ public class PruebaJPQL {
             }
 
         } catch (Exception e) {
-            if (Objects.nonNull(tx)) tx.rollback();
+            if (Objects.nonNull(tx)) {
+                tx.rollback();
+            }
             e.printStackTrace();
         } finally {
-            if (Objects.nonNull(entityManager)) entityManager.close();
+            if (Objects.nonNull(entityManager)) {
+                entityManager.close();
+            }
         }
 
     }

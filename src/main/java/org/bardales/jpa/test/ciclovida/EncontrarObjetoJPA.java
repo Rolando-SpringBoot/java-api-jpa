@@ -1,4 +1,4 @@
-package org.bardales.jpa.test.ciclovidajpa;
+package org.bardales.jpa.test.ciclovida;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -10,46 +10,43 @@ import org.bardales.jpa.domain.Persona;
 import java.util.Objects;
 
 @Log4j2
-public class ActualizarObjetoSesionLarga {
+public class EncontrarObjetoJPA {
+
 
     private EntityManagerFactory entityManagerFactory;
 
-    public ActualizarObjetoSesionLarga() {
+    public EncontrarObjetoJPA() {
         this.entityManagerFactory = Persistence.createEntityManagerFactory("PersonaPU");
     }
 
     public static void main(String... args) {
-        ActualizarObjetoSesionLarga a = new ActualizarObjetoSesionLarga();
+        EncontrarObjetoJPA e = new EncontrarObjetoJPA();
 
         EntityManager entityManager = null;
         EntityTransaction tx = null;
         try {
-            entityManager = a.entityManagerFactory.createEntityManager();
+            entityManager = e.entityManagerFactory.createEntityManager();
 
             //Inicia la transaccion
+
             //Paso1. Iniciar una transaccion
             tx = entityManager.getTransaction();
             tx.begin();
 
-            //Paso2. ejecutamos SQL de tipo select
+            //Paso2. Ejecutar SQL de tipo select
             Persona personaUno = entityManager.find(Persona.class, 97);
 
-            LOG.info("Objecto encontrado: {}", personaUno);
-
-            //Paso3. setValue(nuevo valor)
-            personaUno.setEmail("p.juarez@mail.com");
-
-            //Paso4. Termina la transaccion
+            //Paso3. termina la transaccion
             tx.commit();
 
-            //objeto en estado de detached
-            LOG.info("objeto modificado: {}", personaUno);
-
-        } catch(Exception e) {
-            if(Objects.nonNull(tx)) tx.rollback();
+            //Objeto en estado de detached
+            LOG.info("Objeto recuperado: {}", personaUno);
+        } catch (Exception ex) {
+            if (Objects.nonNull(tx)) tx.rollback();
         } finally {
-            if(Objects.nonNull(entityManager)) entityManager.close();
+            if (Objects.nonNull(entityManager)) entityManager.close();
         }
+
 
     }
 

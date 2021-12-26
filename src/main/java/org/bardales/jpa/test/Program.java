@@ -4,19 +4,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
 import org.bardales.jpa.domain.Persona;
 import org.bardales.jpa.domain.Usuario;
-import org.bardales.jpa.exception.JPAException;
 import org.bardales.jpa.servicio.PersonaService;
 import org.bardales.jpa.servicio.PersonaServiceImpl;
 import org.bardales.jpa.servicio.UsuarioService;
 import org.bardales.jpa.servicio.UsuarioServiceImpl;
-
-import javax.swing.*;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 @Log4j2
 public class Program {
@@ -69,10 +65,16 @@ public class Program {
         } catch (Exception e) {
             LOG.error(e.getMessage());
             e.printStackTrace(System.out);
-            if (Objects.nonNull(tx)) tx.rollback();
+            if (Objects.nonNull(tx)) {
+                tx.rollback();
+            }
         } finally {
-            if (Objects.nonNull(entityManagerPersona)) entityManagerPersona.close();
-            if (Objects.nonNull(entityManagerUsuario)) entityManagerUsuario.close();
+            if (Objects.nonNull(entityManagerPersona)) {
+                entityManagerPersona.close();
+            }
+            if (Objects.nonNull(entityManagerUsuario)) {
+                entityManagerUsuario.close();
+            }
         }
 
     }

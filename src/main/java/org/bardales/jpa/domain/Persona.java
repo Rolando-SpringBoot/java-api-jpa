@@ -1,11 +1,26 @@
 package org.bardales.jpa.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-
-import java.util.List;
+import java.util.Set;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -37,10 +52,6 @@ public class Persona {
     @Column(name = "id_persona")
     private Integer idPersona;
 
-    /*
-      Tanto el metodo equals como hashCode, se ha de aplicar solo al atributo
-      de la llave primaria
-     */
     @EqualsAndHashCode.Exclude
     @NonNull
     @NotNull
@@ -90,11 +101,12 @@ public class Persona {
      */
 
     /*
-     Por buenas practicas, no es bueno llamar a la lista que surge de la relacion OneToMany
+     Por buenas practicas, no es bueno llamar a la lista que surge de la relacion OneToMany.
+     Ademas la lista debe set Set, para evitar indices repetidos
      */
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Usuario> usuarioList;
+    private Set<Usuario> usuarioList;
 
 }
