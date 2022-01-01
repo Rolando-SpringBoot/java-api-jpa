@@ -8,6 +8,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -23,6 +25,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(staticName = "of")
 @Entity(name = "MascotaPersona")
 @Table(name = "mascota_persona", schema = "test")
+@NamedQueries({
+        @NamedQuery(name = "MascotaPersona.findAll", query = "SELECT mp FROM MascotaPersona mp ORDER BY mp.mascota.idMascota, mp.mascota.guarderia.idGuarderia, mp.persona.idPersona"),
+        @NamedQuery(name = "MascotaPersona.findByIdMascotaAndIdGuarderiaAndIdPersona", query = "SELECT mp FROM MascotaPersona mp WHERE mp.mascota.idMascota = :idMascota "
+                + "and mp.mascota.guarderia.idGuarderia = :idGuarderia and mp.persona.idPersona = :idPersona ORDER BY mp.mascota.idMascota, mp.mascota.guarderia.idGuarderia, mp.persona.idPersona"),
+        @NamedQuery(name = "MascotaPersona.findByPrecio", query = "SELECT mp FROM MascotaPersona mp WHERE mp.precio = :precio ORDER BY mp.mascota.idMascota, mp.mascota.guarderia.idGuarderia, mp.persona.idPersona")
+})
 @IdClass(MascotaPersonaId.class)
 public class MascotaPersona {
 

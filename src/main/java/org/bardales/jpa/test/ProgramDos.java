@@ -4,11 +4,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
-import org.bardales.jpa.domain.MascotaId;
 import org.bardales.jpa.domain.MascotaPersona;
-import org.bardales.jpa.domain.MascotaPersonaId;
 
 @Log4j2
 public class ProgramDos {
@@ -26,15 +27,25 @@ public class ProgramDos {
         EntityTransaction tx = null;
         try {
             entityManager = p.entityManagerFactory.createEntityManager();
-            tx = entityManager.getTransaction();
-            tx.begin();
+            //tx = entityManager.getTransaction();
+            //tx.begin();
 
-            MascotaPersonaId mascotaPersonaId = MascotaPersonaId.of(MascotaId.of(2, 2), 6);
+            /*MascotaPersonaId mascotaPersonaId = MascotaPersonaId.of(MascotaId.of(2, 2), 6);
             MascotaPersona mascotaPersona = entityManager
                     .find(MascotaPersona.class, mascotaPersonaId);
             LOG.info("mascotaPersona : {}", mascotaPersona);
+            */
 
-            tx.commit();
+            //tx.commit();
+
+            TypedQuery<MascotaPersona> mascotaPersonaTypedQuery = entityManager.createNamedQuery(
+                    "MascotaPersona.findByPrecio",
+                    MascotaPersona.class);
+            mascotaPersonaTypedQuery.setParameter("precio", BigDecimal.valueOf(600.5D));
+
+            List<MascotaPersona> mascotaPersonaList = mascotaPersonaTypedQuery.getResultList();
+            mascotaPersonaList.forEach(System.out::println);
+
 
         } catch (Exception e) {
             if (Objects.nonNull(tx)) {
