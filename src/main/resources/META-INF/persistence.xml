@@ -10,8 +10,12 @@
     <!-- especifica el proveedor de persistencia JPA -->
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <!-- especifica la clase entidad -->
-    <class>org.bardales.jpa.domain.Persona</class>
     <class>org.bardales.jpa.domain.Usuario</class>
+    <class>org.bardales.jpa.domain.Persona</class>
+    <class>org.bardales.jpa.domain.Direccion</class>
+    <class>org.bardales.jpa.domain.Guarderia</class>
+    <class>org.bardales.jpa.domain.Mascota</class>
+    <class>org.bardales.jpa.domain.MascotaPersona</class>
     <!-- validar la entidad automaticamente siempre y cuando se le añada validacion a este -->
     <validation-mode>AUTO</validation-mode>
     <properties>

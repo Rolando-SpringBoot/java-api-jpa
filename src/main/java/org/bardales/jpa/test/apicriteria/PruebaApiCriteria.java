@@ -103,8 +103,8 @@ public class PruebaApiCriteria {
             personaList = typedQueryPersona.getResultList();
             mostrar(personaList);
 
-            //2. Consulta de la Persona con id = 917
-            LOG.info("2. Consulta de la Persona con id = 91");
+            //2. Consulta de la Persona con id = 6
+            LOG.info("2. Consulta de la Persona con id = 6");
             //Paso1. El objeto entityManager crea una instancia de CriteriaBuilder
             cb = entityManager.getCriteriaBuilder();
 
@@ -115,7 +115,7 @@ public class PruebaApiCriteria {
             fromPersona = criteriaQueryPersona.from(Persona.class);
 
             //Paso4. Creamos una instancia de Predicate que contiene la condicional
-            Predicate equalIdPersona = cb.equal(fromPersona.get("idPersona"), 917);
+            Predicate equalIdPersona = cb.equal(fromPersona.get("idPersona"), 6);
 
             //Paso5. Se construye la consulta
             criteriaQueryPersona.select(fromPersona)
@@ -475,9 +475,9 @@ public class PruebaApiCriteria {
             tx = entityManager.getTransaction();
             tx.begin();
 
-            int filasActualizadas = entityManager.createQuery(criteriaUpdateUsuario)
-                    .executeUpdate();
-            LOG.info("nro de filas actualizadas : {}", filasActualizadas);
+//            int filasActualizadas = entityManager.createQuery(criteriaUpdateUsuario)
+//                    .executeUpdate();
+//            LOG.info("nro de filas actualizadas : {}", filasActualizadas);
 
             tx.commit();
 
@@ -499,8 +499,8 @@ public class PruebaApiCriteria {
             tx = entityManager.getTransaction();
             tx.begin();
 
-            int filasEliminadas = entityManager.createQuery(criteriaDeleteUsuario).executeUpdate();
-            LOG.info("numero de filas eliminadas : {}", filasEliminadas);
+//            int filasEliminadas = entityManager.createQuery(criteriaDeleteUsuario).executeUpdate();
+//            LOG.info("numero de filas eliminadas : {}", filasEliminadas);
 
             tx.commit();
 

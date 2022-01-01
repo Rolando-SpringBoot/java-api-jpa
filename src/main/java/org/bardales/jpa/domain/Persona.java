@@ -7,12 +7,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
 import lombok.Data;
@@ -54,30 +56,30 @@ public class Persona {
 
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
+    @NotEmpty
     @Size(max = 45)
     @Column(name = "nombre", length = 45, nullable = false)
     private String nombre;
 
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
+    @NotEmpty
     @Size(max = 45)
     @Column(name = "apellido", length = 45, nullable = false)
     private String apellido;
 
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
+    @NotEmpty
     @Size(max = 45)
     @Column(name = "email", length = 45, nullable = false, unique = true)
     private String email;
 
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
-    @Size(max = 45)
-    @Column(name = "telefono", length = 45, nullable = false)
+    @NotEmpty
+    @Size(min = 9, max = 9)
+    @Column(name = "telefono", length = 9, nullable = false)
     private String telefono;
 
     /*
@@ -98,15 +100,37 @@ public class Persona {
         Buenas practicas:
          - debe existir una relacion bidireccional, es decir un @OneToMany y un @ManyToOne en otra entidad
          - el atributo cascade debe estar la relacion @OneToMany y no en @ManyToOne
-     */
-
-    /*
-     Por buenas practicas, no es bueno llamar a la lista que surge de la relacion OneToMany.
-     Ademas la lista debe set Set, para evitar indices repetidos
+         - no se debe usar CascadeType.REMOVE, ua qye la conexión en cascada requiere muchas declaraciones SQL y,
+         en el peor de los casos, elimina más registros de los que pretendía.
+         - es bueno llamar a la lista que surge de la relacion OneToMany. Ademas la lista debe ser Set,
+         para evitar indices repetidos
      */
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Usuario> usuarioList;
+
+    /*
+        @JoinColumn: indica que esta entidad es la propietaria de la relación
+        (es decir: la tabla correspondiente tiene una columna con una clave externa a la tabla referenciada)
+
+        orphanRemoval: es un concepto de ORM, indica si el niño es huérfano, también debe eliminarse de la base de datos.
+                       Un niño queda huérfano cuando no se puede acceder a él desde su padre
+
+        Buenas practicas:
+        - la tabla que contiene la columna foranea, ha de establecer el joinColumn y hacer uso
+        de la eliminacion huerfana orphanRemoval
+        - en la relacion onetoone tiene sentido poner CascadType.All, y por ende, usar el CascadeType.REMOVE
+     */
+    @JoinColumn(name = "id_direccion", referencedColumnName = "id_direccion", nullable = false, unique = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
+    private Direccion direccion;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<MascotaPersona> mascotaPersonaList;
 
 }

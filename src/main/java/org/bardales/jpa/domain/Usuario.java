@@ -12,7 +12,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,20 +45,21 @@ public class Usuario {
      */
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
+    @NotEmpty
     @Size(max = 45)
     @Column(name = "username", length = 45, nullable = false)
     private String username;
 
     @EqualsAndHashCode.Exclude
     @NonNull
-    @NotNull
+    @NotEmpty
     @Size(max = 45)
     @Column(name = "password", length = 45, nullable = false)
     private String password;
 
     /*
-        @JoinColumn: similar a @Column, solo que este se ha de colocar en la columna que vendra como foranea
+        @JoinColumn: indica que esta entidad es la propietaria de la relación
+        (es decir: la tabla correspondiente tiene una columna con una clave externa a la tabla referenciada)
 
         Fetch:
             EAGER (ansioso): Indica que la relación debe de ser cargada al momento de cargar la entidad.
