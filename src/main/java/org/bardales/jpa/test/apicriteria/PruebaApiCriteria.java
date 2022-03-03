@@ -302,7 +302,7 @@ public class PruebaApiCriteria {
             //Paso4 Estableciendo parametros
             int id = 7;
 
-            Map<ParameterExpression, Object> paramMap = new HashMap<>();
+            Map<ParameterExpression<?>, Object> paramMap = new HashMap<>();
 
             ParameterExpression<Integer> parameterIDPersona = cb
                     .parameter(Integer.class, "idPersona");
@@ -344,16 +344,8 @@ public class PruebaApiCriteria {
             //Paso8 Creamos el query typesafe
             typedQueryPersona = entityManager.createQuery(criteriaQueryPersona);
 
-            for (Map.Entry<ParameterExpression, Object> entry : paramMap.entrySet()) {
-                if (entry.getKey().equals("idPersona")
-                        || entry.getKey().equals("betweenMinId")
-                        || entry.getKey().equals("betweenMaxId")) {
-                    typedQueryPersona.setParameter(entry.getKey(), (Integer) entry.getValue());
-                }
-
-                if (entry.getKey().equals("likeNombre")) {
-                    typedQueryPersona.setParameter(entry.getKey(), (String) entry.getValue());
-                }
+            for (Map.Entry<ParameterExpression<?>, Object> entry : paramMap.entrySet()) {
+                typedQueryPersona.setParameter(entry.getKey().getName(), entry.getValue());
             }
 
             //Paso9 Se ejecuta la consulta
